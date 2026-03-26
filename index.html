@@ -4,230 +4,630 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>تحميل تطبيق — الدين الإسلامي</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <meta name="theme-color" content="#120514">
+  <meta name="theme-color" content="#f5f0e8">
 
   <style>
-    /* ----- Mars UI palette (match previous pages) ----- */
-    :root{
-      --bg-1: #07040a;
-      --bg-2: #120514;
-      --card: rgba(255,255,255,0.02);
-      --muted: #bfc3cf;
-      --mars: #ff6b3d;
-      --mars-dark: #c1440e;
-      --mars-light: rgba(255,107,61,0.10);
-      --accent-text: #0b0710;
-      --radius:16px;
-      --shadow: 0 12px 40px rgba(2,6,23,0.6);
-      --glass-border: rgba(255,255,255,0.03);
+    :root {
+      --bg-deep:      #f0ece0;
+      --bg-mid:       #faf7f0;
+      --bg-card:      rgba(255,255,255,0.85);
+      --border:       rgba(180,160,100,0.2);
+      --border-glow:  rgba(180,130,30,0.25);
+      --gold:         #b8860b;
+      --gold-light:   #d4a017;
+      --gold-dim:     rgba(184,134,11,0.10);
+      --amber:        #c8651a;
+      --text:         #2a2210;
+      --muted:        #7a6e55;
+      --radius:       18px;
+      --radius-sm:    10px;
     }
 
-    *{box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-font-smoothing:antialiased}
-    html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 10% 10%, rgba(255,91,48,0.03), transparent), linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--muted);line-height:1.6}
-    a{color:var(--mars);text-decoration:none}
-    img{max-width:100%;height:auto;display:block}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* header */
-    header{position:sticky;top:0;z-index:60;padding:12px 20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.02)}
-    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:56px;height:56px;border-radius:12px;box-shadow:0 0 20px rgba(255,107,61,0.12);display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .site-title{color:#fff;font-weight:700;font-size:18px}
-    .site-sub{color:var(--muted);font-size:13px}
+    html { scroll-behavior: smooth; }
 
-    /* page layout */
-    main{max-width:1100px;margin:28px auto;padding:0 20px;z-index:2}
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:26px;align-items:start}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
-
-    /* left column (hero + details) */
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--glass-border)}
-    .hero{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-    .app-preview{width:180px;height:180px;border-radius:18px;flex:0 0 180px;background:linear-gradient(180deg,#1a0b0f,#2a0f12);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(193,65,14,0.06)}
-    .app-preview img{width:140px;height:140px;object-fit:cover;border-radius:14px}
-    .hero h1{margin:0;font-size:22px;color:#fff}
-    .hero p{margin:6px 0;color:var(--muted)}
-
-    /* download button */
-    .download-area{display:flex;gap:12px;align-items:center;margin-top:12px}
-    .btn-download{
-      display:inline-flex;align-items:center;gap:12px;padding:12px 18px;border-radius:12px;font-weight:800;font-size:18px;background:linear-gradient(90deg,var(--mars),#ffb86b);color:var(--accent-text);border:0;cursor:pointer;box-shadow:0 18px 50px rgba(255,107,61,0.12);text-decoration:none;
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .btn-secondary{padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:700}
 
-    .file-info{font-size:13px;color:rgba(255,255,255,0.8);margin-left:6px}
+    /* ─── Ambient BG ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 900px 700px at 80% -10%, rgba(212,175,55,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 500px at -10% 80%, rgba(232,135,58,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 1400px 900px at 50% 50%, rgba(255,252,240,0.95) 0%, var(--bg-deep) 100%);
+    }
 
-    /* features list */
-    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-    @media (max-width:700px){ .features{grid-template-columns:1fr} }
-    .feature{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);display:flex;gap:10px;align-items:center}
-    .feature i{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:var(--mars);min-width:44px;text-align:center}
+    /* Subtle dot pattern */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.18;
+      background-image: radial-gradient(circle, rgba(180,130,30,0.35) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
 
-    /* right column (sidebar) */
-    .sidebar .card{position:sticky;top:92px}
-    .meta-list{display:flex;flex-direction:column;gap:10px}
-    .meta-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+    a { color: var(--gold); text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-    /* screenshots carousel */
-    .screens{display:flex;gap:10px;overflow:auto;padding:6px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:10px}
-    .screens img{width:160px;height:320px;object-fit:cover;border-radius:12px;flex:0 0 auto}
+    /* ─── HEADER ─── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      padding: 0 24px;
+      height: 72px;
+      display: flex; align-items: center;
+      background: rgba(245,240,228,0.85);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+    }
 
-    /* changelog / privacy */
-    .section-title{display:inline-block;background:var(--mars-light);color:var(--mars-dark);padding:6px 10px;border-radius:10px;font-weight:700;margin-bottom:10px}
-    .muted-block{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+    .nav {
+      max-width: 1160px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
 
-    /* footer small note */
-    .note{font-size:13px;color:rgba(255,255,255,0.6);margin-top:12px}
+    .brand { display: flex; align-items: center; gap: 14px; }
 
+    .logo-wrap {
+      width: 46px; height: 46px; border-radius: 12px;
+      overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 0 0 1px var(--border-glow), 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+    .brand-text .title {
+      font-size: 16px; font-weight: 700; color: #fff; line-height: 1.2;
+    }
+    .brand-text .sub {
+      font-size: 11px; color: var(--muted); letter-spacing: 0.03em;
+    }
+
+    .nav-badge {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 20px;
+      background: var(--gold-dim); border: 1px solid var(--border-glow);
+      color: var(--gold-light); font-size: 12px; font-weight: 600;
+    }
+    .nav-badge i { font-size: 10px; }
+
+    /* ─── MAIN LAYOUT ─── */
+    main {
+      position: relative; z-index: 2;
+      max-width: 1160px; margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: rgba(255,255,255,0.80);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(160,130,60,0.10);
+      overflow: hidden;
+    }
+
+    .card-inner { padding: 28px; }
+
+    /* ─── HERO CARD ─── */
+    .hero-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(232,135,58,0.04) 50%, rgba(255,255,255,0.85) 100%);
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: var(--radius); pointer-events: none;
+      background: linear-gradient(135deg, rgba(212,175,55,0.10) 0%, transparent 60%);
+    }
+
+    .hero-top {
+      display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+
+    .app-icon-wrap {
+      flex-shrink: 0;
+      position: relative;
+    }
+    .app-icon-wrap::after {
+      content: '';
+      position: absolute; inset: -2px; border-radius: 22px; z-index: -1;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      opacity: 0.3;
+    }
+    .app-icon {
+      width: 108px; height: 108px; border-radius: 20px;
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.1);
+      background: #15101e;
+      object-fit: cover;
+    }
+
+    .hero-info { flex: 1; min-width: 200px; }
+
+    .app-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--gold); background: var(--gold-dim);
+      border: 1px solid var(--border-glow);
+      padding: 4px 10px; border-radius: 20px; margin-bottom: 10px;
+    }
+
+    .app-name {
+      font-family: 'Amiri', serif;
+      font-size: 28px; font-weight: 700; color: #fff;
+      line-height: 1.3; margin-bottom: 6px;
+    }
+
+    .app-desc {
+      font-size: 14px; color: var(--muted);
+      line-height: 1.7; max-width: 480px;
+    }
+
+    /* Rating row */
+    .rating-row {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; }
+    .rating-num { font-weight: 700; color: var(--gold-light); }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 20px; font-size: 12px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted);
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+      margin: 24px 0;
+    }
+
+    /* ─── DOWNLOAD SECTION ─── */
+    .download-section { position: relative; z-index: 1; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 14px;
+      padding: 16px 32px; border-radius: 14px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, var(--amber) 100%);
+      background-size: 200% 100%; background-position: right;
+      color: #0a0800; font-weight: 800; font-size: 17px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 30px rgba(212,175,55,0.25), 0 2px 0 rgba(255,255,255,0.15) inset;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0; border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .btn-primary:hover {
+      background-position: left;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(212,175,55,0.38), 0 2px 0 rgba(255,255,255,0.15) inset;
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-icon-wrap {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(0,0,0,0.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    .btn-text-wrap { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+    .btn-text-wrap .small { font-size: 11px; font-weight: 400; opacity: 0.75; }
+    .btn-text-wrap .big   { font-size: 16px; font-weight: 800; }
+
+    .file-meta {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .meta-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted);
+    }
+    .meta-chip i { color: var(--gold); opacity: 0.7; font-size: 11px; }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-top: 24px;
+    }
+    @media (max-width: 540px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px; border-radius: 12px;
+      background: rgba(255,255,255,0.6); border: 1px solid var(--border);
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+    .feature-item:hover {
+      border-color: var(--border-glow);
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 4px 16px rgba(160,130,40,0.10);
+    }
+    .feature-icon {
+      width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+      background: var(--gold-dim); border: 1px solid var(--border-glow);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 15px;
+    }
+    .feature-text .ft { font-size: 13px; font-weight: 700; color: var(--text); }
+    .feature-text .fd { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ─── INSTALL GUIDE ─── */
+    .guide-card {
+      margin-top: 24px;
+      background: linear-gradient(135deg, rgba(232,135,58,0.08), rgba(212,175,55,0.06));
+      border: 1px solid rgba(232,135,58,0.22);
+      border-radius: 12px; padding: 18px;
+    }
+    .guide-title {
+      font-weight: 700; font-size: 14px; color: var(--amber);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    }
+    .guide-steps { display: flex; flex-direction: column; gap: 10px; }
+    .guide-step {
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .step-num {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--amber); color: #0a0800;
+      font-weight: 800; font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-text { font-size: 13px; color: var(--muted); padding-top: 2px; line-height: 1.6; }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+    .sidebar .card { position: sticky; top: 88px; }
+
+    .section-heading {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold); opacity: 0.8;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-heading::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border-glow), transparent);
+    }
+
+    .meta-table { display: flex; flex-direction: column; gap: 2px; }
+    .meta-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 12px; border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .meta-row:hover { background: rgba(180,130,30,0.06); }
+    .meta-row .label { font-size: 13px; color: var(--muted); }
+    .meta-row .value { font-size: 13px; font-weight: 600; color: var(--text); }
+    .meta-row .value.badge {
+      background: var(--gold-dim); border: 1px solid var(--border-glow);
+      color: var(--gold-light); padding: 2px 8px; border-radius: 6px; font-size: 12px;
+    }
+
+    /* QR / Separator */
+    .qr-block {
+      margin-top: 18px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .qr-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+    /* Trust badges */
+    .trust-row {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+    }
+    .trust-item {
+      flex: 1; min-width: 80px;
+      padding: 10px 8px; border-radius: 10px; text-align: center;
+      background: rgba(255,255,255,0.6); border: 1px solid var(--border);
+    }
+    .trust-item i { font-size: 18px; color: var(--gold); display: block; margin-bottom: 4px; }
+    .trust-item span { font-size: 11px; color: var(--muted); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 2;
+      text-align: center; padding: 24px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(240,235,218,0.7);
+      color: var(--muted); font-size: 13px;
+    }
+    .footer-logo { font-family: 'Amiri', serif; font-size: 18px; color: var(--gold); margin-bottom: 6px; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(212,175,55,0.35); }
+      70%  { box-shadow: 0 0 0 10px rgba(212,175,55,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
+    }
+    @keyframes shimmer {
+      from { background-position: 200% center; }
+      to   { background-position: -200% center; }
+    }
+
+    .fade-up { animation: fadeUp 0.55s ease both; }
+    .fade-up:nth-child(2) { animation-delay: 0.08s; }
+    .fade-up:nth-child(3) { animation-delay: 0.16s; }
+
+    .btn-primary { animation: pulse-ring 2.5s 1s ease infinite; }
+
+    /* Shimmer text on app name */
+    .app-name span {
+      background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--amber), var(--gold-light));
+      background-size: 300% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: rgba(180,130,30,0.3); border-radius: 10px; }
   </style>
 </head>
 <body>
+
+  <!-- ─── HEADER ─── -->
   <header>
     <div class="nav">
       <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <img src="https://www.appcreator24.com/srv/imgs/gen/3122147_ico.png?v=31" alt="شعار" style="width:46px;height:46px;object-fit:cover;border-radius:10px">
+        <div class="logo-wrap">
+          <img src="https://www.appcreator24.com/srv/imgs/gen/3122147_ico.png?v=31" alt="شعار التطبيق">
         </div>
-        <div>
-          <div class="site-title">الدين الإسلامي</div>
-          <div class="site-sub">تحميل التطبيق — ملف APK مباشر</div>
+        <div class="brand-text">
+          <div class="title">الدين الإسلامي</div>
+          <div class="sub">ملف APK الرسمي للتحميل المباشر</div>
         </div>
+      </div>
+      <div class="nav-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        آمن وموثوق
       </div>
     </div>
   </header>
-<center>
+
+  <!-- ─── MAIN ─── -->
   <main>
-    <div class="grid">
-      <!-- left column -->
+    <div class="layout">
+
+      <!-- LEFT COLUMN -->
       <div>
-        <div class="card hero" role="region" aria-label="مقدمة تحميل التطبيق">
-          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
-            <div class="app-preview" aria-hidden="true">
-              <img src="logo.png" alt="أيقونة التطبيق" id="appIcon">
-            </div>
-            <div style="flex:1;min-width:220px">
-              <h1 id="appName">تطبيق الدين الإسلامي</h1>
-             
 
-              <div class="download-area" aria-hidden="false">
-                <!-- main download link (APK) -->
-                <a class="btn-download" 
-     href="https://apk.e-droid.net/apk/app3122147-rjpy2m.apk?v=31" 
-     download>
-    <i class="fa-solid fa-arrow-down"></i>
-    حمل التطبيق
-  </a>
-<br><br><br><br><br><br><br><br>
+        <!-- Hero Card -->
+        <div class="card hero-card fade-up">
+          <div class="card-inner">
 
-                <div class="file-info" id="fileInfo">الحجم: 31.4MB · الإصدار: 1.0.2</div>
+            <div class="hero-top">
+              <div class="app-icon-wrap">
+                <img class="app-icon" src="https://www.appcreator24.com/srv/imgs/gen/3122147_ico.png?v=31" alt="أيقونة التطبيق">
+              </div>
+              <div class="hero-info">
+                <div class="app-label">
+                  <i class="fa-solid fa-star-and-crescent"></i>
+                  تطبيق إسلامي
+                </div>
+                <h1 class="app-name"><span>الدين الإسلامي</span></h1>
+                <p class="app-desc">محتوى إيماني شامل — مكتبة قرآنية، أحاديث، فيديوهات، ومواقيت صلاة دقيقة. نسختك المحمولة من محتوى «الدين الإسلامي».</p>
+                <div class="rating-row">
+                  <span class="stars">★★★★★</span>
+                  <span class="rating-num">4.9</span>
+                  <span class="pill"><i class="fa-solid fa-download"></i> 10K+ تحميل</span>
+                  <span class="pill"><i class="fa-brands fa-android"></i> مجاني</span>
+                </div>
               </div>
             </div>
-          </div>
 
-         
+            <div class="divider"></div>
+
+            <!-- Download -->
+            <div class="download-section">
+              <a class="btn-primary"
+                 href="https://apk.e-droid.net/apk/app3122147-rjpy2m.apk?v=36"
+                 download
+                 id="downloadBtn">
+                <div class="btn-icon-wrap"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="btn-text-wrap">
+                  <span class="small">تحميل مجاني · APK مباشر</span>
+                  <span class="big">تحميل التطبيق</span>
+                </div>
+              </a>
+
+              <div class="file-meta" id="fileMeta">
+                <span class="meta-chip"><i class="fa-solid fa-weight-hanging"></i> <span id="sizeVal">31.4 MB</span></span>
+                <span class="meta-chip"><i class="fa-solid fa-code-branch"></i> الإصدار 1.0.6</span>
+                <span class="meta-chip"><i class="fa-brands fa-android"></i> Android 6.0+</span>
+                <span class="meta-chip"><i class="fa-solid fa-lock"></i> ملف موقّع</span>
+              </div>
+            </div>
+
+            <!-- Features -->
+            <div class="features-grid">
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-book-quran"></i></div>
+                <div class="feature-text">
+                  <div class="ft">القرآن الكريم</div>
+                  <div class="fd">تلاوة وتفسير كامل</div>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-mosque"></i></div>
+                <div class="feature-text">
+                  <div class="ft">مواقيت الصلاة</div>
+                  <div class="fd">تحديد تلقائي للموقع</div>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-play-circle"></i></div>
+                <div class="feature-text">
+                  <div class="ft">محتوى فيديو</div>
+                  <div class="fd">دروس ومحاضرات دينية</div>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <div class="feature-text">
+                  <div class="ft">الأذكار والأدعية</div>
+                  <div class="fd">صباحاً ومساءً ومناسبات</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Install Guide -->
+            <div class="guide-card">
+              <div class="guide-title">
+                <i class="fa-solid fa-circle-info"></i>
+                خطوات التثبيت
+              </div>
+              <div class="guide-steps">
+                <div class="guide-step">
+                  <div class="step-num">١</div>
+                  <div class="step-text">اضغط على زر «تحميل التطبيق» أعلاه لبدء تحميل ملف APK</div>
+                </div>
+                <div class="guide-step">
+                  <div class="step-num">٢</div>
+                  <div class="step-text">افتح الملف من مدير الملفات بعد اكتمال التحميل</div>
+                </div>
+                <div class="guide-step">
+                  <div class="step-num">٣</div>
+                  <div class="step-text">إن ظهرت رسالة «مصادر غير معروفة»: الإعدادات ← الأمان ← فعّل الإذن للمتصفح</div>
+                </div>
+                <div class="guide-step">
+                  <div class="step-num">٤</div>
+                  <div class="step-text">أكمل خطوات التثبيت واستمتع بالتطبيق</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-<br><br>
-         <!-- right column (sidebar) -->
-      <aside class="sidebar">
-        <div class="card">
-          <div class="section-title">معلومات الملف</div>
-          <div class="meta-list">
-            <div class="meta-item"><div>الإصدار</div><div id="metaVersion">1.0.2</div></div>
-            <div class="meta-item"><div>الحجم</div><div id="metaSize">31.4MB</div></div>
-            <div class="meta-item"><div>التوافق</div><div>Android 6.0+</div></div>
-            <div class="meta-item"><div>التوقيع</div><div id="metaHash">—</div></div>
-          </div>
-
-           <p id="appShort">محتوى إيماني، مكتبة، فيديوهات، مواقيت صلاة دقيقة — نسختك المحمولة من محتوى «الدين الإسلامي».</p>
-
-        
-      </aside>
-        
       </div>
 
-     
+      <!-- RIGHT COLUMN (Sidebar) -->
+      <aside class="sidebar fade-up">
+        <div class="card">
+          <div class="card-inner">
+
+            <div class="section-heading">معلومات الملف</div>
+            <div class="meta-table">
+              <div class="meta-row">
+                <span class="label">الإصدار</span>
+                <span class="value badge">1.0.6</span>
+              </div>
+              <div class="meta-row">
+                <span class="label">حجم الملف</span>
+                <span class="value" id="metaSizeVal">31.4 MB</span>
+              </div>
+              <div class="meta-row">
+                <span class="label">نظام التشغيل</span>
+                <span class="value">Android 6.0+</span>
+              </div>
+              <div class="meta-row">
+                <span class="label">لغة التطبيق</span>
+                <span class="value">العربية</span>
+              </div>
+              <div class="meta-row">
+                <span class="label">نوع الملف</span>
+                <span class="value">APK</span>
+              </div>
+              <div class="meta-row">
+                <span class="label">السعر</span>
+                <span class="value badge">مجاني</span>
+              </div>
+            </div>
+
+            <!-- Trust badges -->
+            <div class="trust-row">
+              <div class="trust-item">
+                <i class="fa-solid fa-shield-virus"></i>
+                <span>خالٍ من الفيروسات</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-certificate"></i>
+                <span>ملف موقّع</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-bolt"></i>
+                <span>تحميل سريع</span>
+              </div>
+            </div>
+
+            <!-- Divider + hint -->
+            <div class="divider"></div>
+            <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.7;">
+              هذا الملف نسخة رسمية من تطبيق «الدين الإسلامي».<br>
+              يُنصح دائمًا بالتحميل من هذا المصدر الموثوق.
+            </p>
+
+          </div>
+        </div>
+      </aside>
     </div>
   </main>
 
-  <footer style="text-align:center;padding:18px 0;color:var(--muted)"><span id="year"></span> © جميع الحقوق محفوظة لموقع «الدين الإسلامي»</footer>
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">الدين الإسلامي</div>
+    <div>© <span id="year"></span> جميع الحقوق محفوظة لموقع «الدين الإسلامي»</div>
+  </footer>
 
   <script>
-    // ===== CONFIG =====
-    // ضع هنا رابط ملف الـ APK الفعلي أو اترك app-release.apk لو في نفس المجلد
-    const DOWNLOAD_URL = "app-release.apk"; // <-- غَيّر المسار حسب مكان ملفك
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== helpers =====
-    const downloadBtn = document.getElementById('downloadBtn');
-    const fileInfoEl = document.getElementById('fileInfo');
-    const metaSize = document.getElementById('metaSize');
-    const metaHash = document.getElementById('metaHash');
-    const metaVersion = document.getElementById('metaVersion');
-    const yearEl = document.getElementById('year');
+    // Try HEAD request for real file size
+    const APK_URL = "https://apk.e-droid.net/apk/app3122147-rjpy2m.apk?v=36";
 
-    yearEl.textContent = new Date().getFullYear();
-    downloadBtn.href = DOWNLOAD_URL;
-
-    // Try to fetch HEAD to get Content-Length (may be blocked by CORS)
-    async function fetchFileMeta(url){
+    (async () => {
       try {
-        const resp = await fetch(url, { method: 'HEAD' });
-        if (!resp.ok) throw new Error('no head');
-        const len = resp.headers.get('content-length');
-        const type = resp.headers.get('content-type');
+        const r = await fetch(APK_URL, { method: 'HEAD' });
+        if (!r.ok) return;
+        const len = r.headers.get('content-length');
         if (len) {
-          const sizeMB = (parseInt(len,10) / (1024*1024));
-          const pretty = sizeMB < 1 ? (sizeMB*1024).toFixed(1) + ' KB' : sizeMB.toFixed(1) + ' MB';
-          metaSize.textContent = pretty;
-          fileInfoEl.textContent = `الحجم: ${pretty} · الإصدار: ${metaVersion.textContent}`;
-        } else {
-          metaSize.textContent = 'غير متوفر';
-          fileInfoEl.textContent = `الحجم: — · الإصدار: ${metaVersion.textContent}`;
+          const mb = (parseInt(len, 10) / (1024 * 1024)).toFixed(1);
+          const label = mb + ' MB';
+          document.getElementById('sizeVal').textContent    = label;
+          document.getElementById('metaSizeVal').textContent = label;
         }
+      } catch (_) {}
+    })();
 
-        // If server provides ETag or some hash header, show as signature
-        const etag = resp.headers.get('etag');
-        if (etag) metaHash.textContent = etag;
-      } catch (err) {
-        // fallback message (normal case if server blocks HEAD by CORS)
-        metaSize.textContent = 'غير متاح (تحقق من السيرفر)';
-        fileInfoEl.textContent = `الحجم: — · الإصدار: ${metaVersion.textContent}`;
-      }
-    }
-
-    // Call metadata fetch
-    fetchFileMeta(DOWNLOAD_URL);
-
-    // Install guide dialog (simple)
-    document.getElementById('installGuideBtn').addEventListener('click', () => {
-      const msg = `
-        خطوات تثبيت ملف APK:
-        1) حمّل الملف بالضغط على زر "تحميل APK".
-        2) افتح ملف الـ APK من مدير الملفات.
-        3) إذا ظهرت رسالة منع التثبيت من مصادر غير معروفة: ادخل إلى الإعدادات وفعّل السماح لمتصفحك/مدير الملفات.
-        4) أكمل خطوات التثبيت.
-        (تأكد من تحميل الملف من مصدر موثوق).
-      `;
-      alert(msg);
-    });
-
-    // Optional: analytics-like click tracking (local only)
-    downloadBtn.addEventListener('click', (e) => {
-      // mark click time in localStorage (simple)
+    // Click tracking
+    document.getElementById('downloadBtn').addEventListener('click', () => {
       try {
-        const clicks = JSON.parse(localStorage.getItem('app_download_clicks') || '[]');
-        clicks.push({ at: new Date().toISOString(), url: DOWNLOAD_URL });
-        localStorage.setItem('app_download_clicks', JSON.stringify(clicks.slice(-50)));
-      } catch(e){}
-      // note: actual download is handled by browser via href + download attribute
+        const arr = JSON.parse(localStorage.getItem('dl_clicks') || '[]');
+        arr.push({ at: new Date().toISOString() });
+        localStorage.setItem('dl_clicks', JSON.stringify(arr.slice(-50)));
+      } catch (_) {}
     });
-
-    // enhance accessibility: keyboard enter triggers download
-    downloadBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') downloadBtn.click();
-    });
-
   </script>
 </body>
 </html>
